@@ -1,12 +1,23 @@
 import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { 
+  TranslateService,
+  TranslatePipe,
+  TranslateDirective
+} from '@ngx-translate/core';
+import { CharacterComponent } from './character.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [ TranslateDirective, TranslatePipe, CharacterComponent ],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'my-portfolio';
+  constructor( private translate: TranslateService) {
+    this.translate.addLangs(['en', 'fr']);
+    this.translate.setDefaultLang('en');
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang ? browserLang : 'en');
+  }
 }
